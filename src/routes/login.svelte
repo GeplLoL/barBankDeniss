@@ -1,3 +1,10 @@
+<script context="module">
+    export async function preload({ params }, { token }) {
+        if (token) {
+            this.redirect(302, `/`);
+        }
+    }
+</script>
 
 <script>
     import { goto, stores } from '@sapper/app';
@@ -5,12 +12,12 @@
 
     const { session } = stores();
 
-    let name = '';
+    let username = '';
     let password = '';
     let error = null;
 
     async function submit(event) {
-        const response = await post(`auth/login`, { name, password });
+        const response = await post(`auth/login`, { username, password });
 
         // TODO handle network errors
         error = response.error;
@@ -23,7 +30,7 @@
 </script>
 
 <svelte:head>
-    <title>Sign in • Conduit</title>
+    <title>Sign in • barBank</title>
 </svelte:head>
 
 <div class="auth-page">
@@ -39,7 +46,7 @@
 
                 <form on:submit|preventDefault={submit}>
                     <fieldset class="form-group">
-                        <input class="form-control form-control-lg" type="text" required placeholder="Name" bind:value={name}>
+                        <input class="form-control form-control-lg" type="text" required placeholder="Name" bind:value={username}>
                     </fieldset>
                     <fieldset class="form-group">
                         <input class="form-control form-control-lg" type="password" required placeholder="Password" bind:value={password}>

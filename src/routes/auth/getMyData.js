@@ -1,9 +1,7 @@
 import * as api from 'api.js';
 
 export function post(req, res) {
-    const user = req.body;
-    api.post('sessions', req.body).then(response => {
-        if (response.token) req.session.token = response.token;
+    api.get('users/current', req.session.token).then(response => {
         res.setHeader('Content-Type', 'application/json');
         res.end(JSON.stringify(response));
     });
